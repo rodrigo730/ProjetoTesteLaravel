@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\EventController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,23 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-
-  $arr = [1,2,3,4,5];
-  $nomes = ["Rodrigo","Guilherme","Julia","Carlos"];
-
-    return view('welcome',
-               [
-               
-                'arr' => $arr,
-               'nomes' => $nomes
-               
-               ]);
-});
+Route::get('/', [EventController::class, 'index']);
+Route::get('/events/cadastro', [EventController::class, 'cadastro']);
+Route::get('/events/login', [EventController::class, 'login']);
 
 Route::get('/contact', function () {
     return view('contact');
 });
 Route::get('/produtos', function () {
-    return view('produtos');
+
+  $busca = request('search');
+
+  return view('produtos', ['busca' => $busca ]);
 });
+Route::get('/produtos_teste/{id?}', function ($id = null) {
+    return view('products', ['id'=> $id]);
+});
+
